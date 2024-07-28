@@ -58,8 +58,6 @@ End:: ExitApp
 
 ; Functionality (Only edit if you know what you're doing)
 
-; TODO: Indicator when enabled
-
 Main:
     Clicked = 0
     BlockInput, MouseMove
