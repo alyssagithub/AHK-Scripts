@@ -10,12 +10,8 @@ return
 
 ; Mouse Lock Hotkey
 Insert::
-    if ShouldLock := not ShouldLock {
-        BlockInput, MouseMove
-        MouseGetPos, MouseX, MouseY
-    }
-    else
-        BlockInput, MouseMoveOff
+    ShouldLock := not ShouldLock
+    Gosub, CheckShouldLock
 return
 
 ; Safeguard Exit Hotkey
@@ -23,11 +19,20 @@ End:: ExitApp
 
 ; Functionality (Only edit if you know what you're doing)
 
+CheckShouldLock:
+    if ShouldLock
+        if Enabled {
+            BlockInput, MouseMove
+            MouseGetPos, MouseX, MouseY
+        }
+        else
+            BlockInput, MouseMoveOff
+    else
+        BlockInput, MouseMoveOff
+return
+
 Main:
-    if ShouldLock {
-        BlockInput, MouseMove
-        MouseGetPos, MouseX, MouseY
-    }
+    Gosub, CheckShouldLock
 
     while Enabled {
         if ((WinExist("Roblox") and WinActive("Roblox")) or not WinExist("Roblox")) {
@@ -43,6 +48,5 @@ Main:
         Sleep, 10
     }
 
-    if ShouldLock
-        BlockInput, MouseMoveOff
+    Gosub, CheckShouldLock
 return
